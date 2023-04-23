@@ -1,6 +1,6 @@
-from PyQt6.QtWidgets import (QWidget, QCalendarWidget,
-        QLabel, QApplication, QVBoxLayout)
-from PyQt6.QtCore import QDate
+from PyQt6.QtWidgets import (QWidget, QHBoxLayout,
+        QLabel, QApplication)
+from PyQt6.QtGui import QPixmap
 import sys
 
 
@@ -14,29 +14,18 @@ class Example(QWidget):
 
     def initUI(self):
 
-        vbox = QVBoxLayout(self)
+        hbox = QHBoxLayout(self)
+        pixmap = QPixmap('sid.jpg')
 
-        cal = QCalendarWidget(self)
-        cal.setGridVisible(True)
-        cal.clicked[QDate].connect(self.showDate)
+        lbl = QLabel(self)
+        lbl.setPixmap(pixmap)
 
-        vbox.addWidget(cal)
+        hbox.addWidget(lbl)
+        self.setLayout(hbox)
 
-        self.lbl = QLabel(self)
-        date = cal.selectedDate()
-        self.lbl.setText(date.toString())
-
-        vbox.addWidget(self.lbl)
-
-        self.setLayout(vbox)
-
-        self.setGeometry(300, 300, 350, 300)
-        self.setWindowTitle('Calendar')
+        self.move(300, 200)
+        self.setWindowTitle('Sid')
         self.show()
-
-
-    def showDate(self, date):
-        self.lbl.setText(date.toString())
 
 
 def main():

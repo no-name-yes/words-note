@@ -4,28 +4,28 @@ from PyQt6.QtCore import Qt
 """
 defaultdataform = {
     "english": "test",
-    "soundmark": "test",
-    "japanese": "test",
-    "jiaming": "test",
-    "chinese": "test",
-    "pingyin": "test",
-    "cixing": "test",
+    "soundmark": "/tɛst/",
+    "japanese": "テスト",
+    "jiaming": "テスト (念作 tesuto)",
+    "chinese": "测试",
+    "pingyin": "cè shì",
+    "cixing": "名词",
 }
 
 defaultdataform2 = {
-    "english": "test2",
-    "soundmark": "test2",
-    "japanese": "test2",
-    "jiaming": "test2",
-    "chinese": "test2",
-    "pingyin": "test2",
-    "cixing": "test2",
+    "english": "case",
+    "soundmark": "/keɪs/",
+    "japanese": "ケース",
+    "jiaming": "ケース (念作 ke-su)",
+    "chinese": "案例",
+    "pingyin": "àn lì",
+    "cixing": "名词",
 }
 
 datalist = [defaultdataform,defaultdataform2]
 
 with open("Words_data", "w") as f:
-    json.dump(datalist, f)
+    json.dump(datalist, f)                      #将测试数据写入实验
     """
 class Wordsdata():
     def __init__(self):
@@ -38,6 +38,15 @@ class Wordsdata():
             self.completerwords.append(word['english'])
             self.completerwords.append(word['japanese'])
             self.completerwords.append(word['chinese'])
+
+    def commit(self, target):
+        with open("Words_data",'w',encoding='utf-8') as f:
+            json.dump(target, f)
+
+
+    """def write_test(self):
+        with open('Words_data', 'w', encoding='utf-8') as f:
+            words = json.dump(f) """
 
 
 

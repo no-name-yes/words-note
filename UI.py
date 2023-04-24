@@ -2,6 +2,7 @@ import sys
 import PyQt6.QtWidgets
 from PyQt6.QtCore import QDate, QDateTime, QTime, Qt, QTimer, QSortFilterProxyModel
 from local_data import Wordsdata
+#from translate_module import Translate_class
 #from Tetris import Tetris  #copy的俄罗斯方块小游戏
 class MAINUI(PyQt6.QtWidgets.QWidget):
     def __init__(self):
@@ -24,6 +25,9 @@ class MAINUI(PyQt6.QtWidgets.QWidget):
         self.schedule_btn.clicked.connect(self.schedule_windows)
         self.addwordbtn = PyQt6.QtWidgets.QPushButton('addword', self)
         self.addwordbtn.clicked.connect(self.addword)
+
+        #翻译类实例初始化
+        #trans_class = Translate_class
 
 
         #俄罗斯方块小游戏暂时搁置未添加

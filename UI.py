@@ -25,6 +25,10 @@ class MAINUI(PyQt6.QtWidgets.QWidget):
         self.schedule_btn.clicked.connect(self.schedule_windows)
         self.addwordbtn = PyQt6.QtWidgets.QPushButton('addword', self)
         self.addwordbtn.clicked.connect(self.addword)
+        self.clipboard = PyQt6.QtWidgets.QApplication.clipboard()
+        self.clipboard.dataChanged.connect(self.update_clipboard)
+        self.contextforclipboardlabel = PyQt6.QtWidgets.QLabel(f"剪贴内容:还没有复制哦")
+
 
         #翻译类实例初始化
         #trans_class = Translate_class
@@ -37,6 +41,7 @@ class MAINUI(PyQt6.QtWidgets.QWidget):
         #tooltips
         self.schedule_btn.setToolTip('The palce is <b>not</b> complete')
         self.addwordbtn.setToolTip('a case(need to modify)')
+
 
         #statusbar
 
@@ -77,6 +82,7 @@ class MAINUI(PyQt6.QtWidgets.QWidget):
         uiHlayout.addStretch(1)
         uiHlayout.addWidget(self.schedule_btn)  #schedule按钮暂用位置
         uiHlayout.addWidget(self.addwordbtn_simp) #addwordbtn_simp添加生词暂用位置
+        uiHlayout.addWidget(self.contextforclipboardlabel)
         uiHlayout.addStretch(1)
 
         uiHlayout.addLayout(uiVlayout)
@@ -94,6 +100,12 @@ class MAINUI(PyQt6.QtWidgets.QWidget):
     def updatetime(self):
         self.dt = QDateTime.currentDateTime()
         self.dt_lable.setText(self.dt.toString())
+
+    def update_clipboard(self):           #更新剪贴板内容 未考虑剪贴图像 长度太长会自动给延伸
+        clipboard = PyQt6.QtWidgets.QApplication.clipboard()
+        self.contextforclipboardlabel.setText(f'剪贴内容:{clipboard.text()}')
+        self.contextforclipboardlabel.setToolTip(f'{clipboard.text()}')
+
 
     def schedule_windows(self):
         self.schedule_w = Window_schedule()
@@ -152,7 +164,7 @@ class MAINUI(PyQt6.QtWidgets.QWidget):
 
 
 
-
+#create a window for schedule
 class Window_schedule(PyQt6.QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
@@ -161,6 +173,11 @@ class Window_schedule(PyQt6.QtWidgets.QWidget):
         self.schedule = PyQt6.QtWidgets.QCalendarWidget(self)
         self.layout.addWidget(self.schedule)
         self.setLayout(self.layout)
+
+"""in Qt any widget without a parent is a window"""
+class new_window(PyQt6.QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
 
 
 

@@ -1,47 +1,50 @@
-import sys
-from PyQt6.QtWidgets import QApplication, QLineEdit, QComboBox
-from PyQt6.QtCore import Qt, QTranslator, QLibraryInfo
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
+from PyQt6.QtCore import *
+
+import time
+
+class MainWindow(QMainWindow):
+
+    def __init__(self, *args, **kwargs):
+        super(MainWindow, self).__init__(*args, **kwargs)
+
+        self.counter = 0
+
+        layout = QVBoxLayout()
+
+        self.l = QLabel("Start")
+        b = QPushButton("DANGER!")
+        b.pressed.connect(self.oh_no)
+
+        c = QPushButton("?")
+        c.pressed.connect(self.change_message)
+
+        layout.addWidget(self.l)
+        layout.addWidget(b)
+
+        layout.addWidget(c)
+
+        w = QWidget()
+        w.setLayout(layout)
+
+        self.setCentralWidget(w)
+
+        self.show()
 
 
-class Translator:
-    def __init__(self, app):
-        self.app = app
-        self.translator = QTranslator()
+    def change_message(self):
+        self.message = "OH NO"
 
-    def load_translations(self):
-        qt_translator = QTranslator()
-        if qt_translator.load(QLibraryInfo.location(QLibraryInfo.LibraryLocation.TranslationsPath),
-                              'qtbase_' + self.app.locale().name(),
-                              '_',
-                              QLibraryInfo.location(QLibraryInfo.LibraryLocation.TranslationsPath)):
-            self.app.installTranslator(qt_translator)
-        if self.translator.load('translation_' + self.app.locale().name() + '.qm'):
-            self.app.installTranslator(self.translator)
+    def oh_no(self):
+        self.message = "Pressed"
 
-    def translate(self, text):
-        return self.translator.translate('MainWindow', text)
+        for n in range(100):
+            time.sleep(0.1)
+            self.l.setText(self.message)
+            QApplication.processEvents()
 
 
-class MainWindow(QLineEdit):
-    def __init__(self):
-        super().__init__()
-        self.translator = Translator(app)
-        self.translator.load_translations()
-        self.combo = QComboBox(self)
-        self.combo.addItems(['en', 'zh-CN', 'ja'])
-        self.combo.move(10, 50)
-        self.combo.currentTextChanged.connect(self.translate_text)
-
-    def translate_text(self):
-        text = self.text()
-        lang = self.combo.currentText()
-        self.translator.translator.load('qt_' + lang, QLibraryInfo.location(QLibraryInfo.LibraryLocation.TranslationsPath))
-        self.translator.load_translations()
-        self.setText(self.translator.translate(text))
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec())
+app = QApplication([])
+window = MainWindow()
+app.exec()

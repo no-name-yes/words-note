@@ -23,7 +23,6 @@ defaultdataform2 = {
 }
 
 datalist = [defaultdataform,defaultdataform2]
-
 with open("Words_data", "w") as f:
     json.dump(datalist, f)                      #将测试数据写入实验
     """

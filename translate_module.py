@@ -16,11 +16,11 @@ class Translate_class:
 
     #以chatgpt作为源翻译
     def translate_evet(self, text):
-        #openai.api_key =
+        openai.api_key = "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"
         response = openai.Completion.create(
             engine = "text-davinci-002",
             prompt=f"翻译单词{text} 以(英文:)(英文读音:)(日文:)(日文读音:)(中文:)(拼音:)(词性:)的格式回复",
-            temperature=0.5,
+            temperature=0.4,
             max_tokens=0,
             top_p=1,
             frequency_penalty=0,

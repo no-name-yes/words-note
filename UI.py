@@ -3,6 +3,7 @@ import PyQt6.QtWidgets
 from PyQt6.QtCore import QDate, QDateTime, QTime, Qt, QTimer, QSortFilterProxyModel
 from local_data import Wordsdata
 #from translate_module import Translate_class
+
 #from Tetris import Tetris  #copy的俄罗斯方块小游戏
 class MAINUI(PyQt6.QtWidgets.QWidget):
     def __init__(self):
@@ -28,10 +29,13 @@ class MAINUI(PyQt6.QtWidgets.QWidget):
         self.clipboard = PyQt6.QtWidgets.QApplication.clipboard()
         self.clipboard.dataChanged.connect(self.update_clipboard)
         self.contextforclipboardlabel = PyQt6.QtWidgets.QLabel(f"剪贴内容:还没有复制哦")
+        #翻译相关控件在相关类里面初始化
+        #self.querywordbtn = PyQt6.QtWidgets.QPushButton('query', self)
+        #self.querywordbtn.clicked.connect()
 
 
         #翻译类实例初始化
-        #trans_class = Translate_class
+        #trans_class = Translate_class()
 
 
         #俄罗斯方块小游戏暂时搁置未添加
@@ -56,6 +60,8 @@ class MAINUI(PyQt6.QtWidgets.QWidget):
         #simp to add a word by other way(uncomplete)
         self.addwordbtn_simp = PyQt6.QtWidgets.QLineEdit(self)
         self.addwordbtn_simp.setPlaceholderText('add a new word')
+        self.querywordline = PyQt6.QtWidgets.QLineEdit(self)
+        self.querywordline.setPlaceholderText('queryword')
 
         #completer
         file = Wordsdata()
@@ -79,12 +85,13 @@ class MAINUI(PyQt6.QtWidgets.QWidget):
         # layout (temp)
         uiHlayout = PyQt6.QtWidgets.QHBoxLayout()
         uiVlayout = PyQt6.QtWidgets.QVBoxLayout()
+        uiHlayout.addWidget(self.addwordbtn)
+        uiVlayout.addWidget(self.querywordline)
         uiHlayout.addStretch(1)
         uiHlayout.addWidget(self.schedule_btn)  #schedule按钮暂用位置
         uiHlayout.addWidget(self.addwordbtn_simp) #addwordbtn_simp添加生词暂用位置
         uiHlayout.addWidget(self.contextforclipboardlabel)
         uiHlayout.addStretch(1)
-
         uiHlayout.addLayout(uiVlayout)
         uiVlayout.addWidget(self.searchline)
         uiVlayout.addStretch(1)
